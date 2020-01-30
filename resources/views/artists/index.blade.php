@@ -33,7 +33,11 @@
                                     <th scope="row">{{ $artist->id }}</th>
                                     <td>{{ $artist->artist_name }}</td>
                                     <td>{{ $artist->twitter_handle }}</td>
-                                    <td>{{ $artist->albums }}</td>
+                                    <td>
+                                        @foreach($artist->albums as $album)
+                                            <p>{{ $album->album_name }}({{ $album->year }})</p>
+                                        @endforeach
+                                    </td>
                                     <td>
                                         <a class="btn btn-sm btn-info" href="{{ route('artists.show', $artist) }}">Show</a>                                        
                                         <a class="btn btn-sm btn-warning" href="{{ route('artists.edit', $artist) }}">Edit</a>
