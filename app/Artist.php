@@ -12,6 +12,6 @@ class Artist extends Model
 
     public function albums() 
     {
-    	return $this->hasMany('App\Album')->orderBy('created_at', 'desc');
+    	return $this->hasMany('App\Album');
     }
 }

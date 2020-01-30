@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Album;
+use App\Artist;
 use Illuminate\Http\Request;
 
 class AlbumController extends Controller
@@ -14,13 +15,14 @@ class AlbumController extends Controller
 
     public function index()
     {
-    	$albums = Album::all()->paginate(25);
+    	$albums = Album::all();
         return view('albums.index', compact('albums'));
     }
 
     public function create()
     {
-        return view('albums.create');
+        $artists = Artist::all();
+        return view('albums.create', compact('artists'));
     }
 
 	public function store(Request $request)
@@ -28,11 +30,18 @@ class AlbumController extends Controller
         $validatedData = $request->validate([
             'album_name' => 'required|max:128',
             'year' => 'required',
+            'artist_id' => 'required',
         ]);
         
-        $album = Album::create($validatedData);
+        $artist = Artist::findOrFail($request['artist_id']);
 
-        return redirect()->route('albums.index', compact('album'))->with('success','Album created successfully.');
+        $artist->albums()->create([
+            'album_name' => $request['album_name'],
+            'year' => $request['year'],
+            'artist_name' => $artist->artist_name,
+        ]);
+
+        return redirect()->route('albums.index')->with('success','Album created successfully.');
     }
 
     public function show($id)
@@ -52,11 +61,19 @@ class AlbumController extends Controller
         $validatedData = $request->validate([
             'album_name' => 'required|max:128',
             'year' => 'required',
+            'artist_id' => 'required',
         ]);
         
-        $album = Album::findOrFail($id)->update($validatedData);
+        $artist = Artist::findOrFail($request['artist_id']);
+
+        $album = Album::findOrFail($id)->update([
+            'album_name' => $request['album_name'],
+            'year' => $request['year'],
+            'artist_name' => $artist->artist_name,
+            'artist_id' => $artist->id,
+        ]);
         
-        return redirect()->route('albums.index', compact('album'))->with('success','Album updated successfully.');
+        return redirect()->route('albums.index')->with('success','Album updated successfully.');
     }
 
     public function destroy($id)

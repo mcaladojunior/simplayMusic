@@ -14,7 +14,7 @@ class ArtistController extends Controller
 
     public function index()
     {
-    	$artists = Artist::all()->paginate(25);
+    	$artists = Artist::all();
         return view('artists.index', compact('artists'));
     }
 
@@ -32,7 +32,7 @@ class ArtistController extends Controller
         
         $artist = Artist::create($validatedData);
 
-        return redirect()->route('artists.index', compact('artist'))->with('success','Artist created successfully.');
+        return redirect()->route('artists.index')->with('success','Artist created successfully.');
     }
 
     public function show($id)
@@ -47,21 +47,25 @@ class ArtistController extends Controller
         return view('artists.edit', compact('artist'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         $validatedData = $request->validate([
             'artist_name' => 'required|max:128',
             'twitter_handle' => 'required',
         ]);
         
-        $artist = Artist::findOrFail($id)->update($validatedData);
+        $artist = Artist::findOrFail($request['id'])->update($validatedData);
         
-        return redirect()->route('artists.index', compact('artist'))->with('success','Artist updated successfully.');
+        return redirect()->route('artists.index')->with('success','Artist updated successfully.');
     }
 
     public function destroy($id)
     {
         Artist::findOrFail($id)->delete();
     	return redirect()->route('artists.index')->with('success','Artist deleted successfully.');
+    }
+
+    public function albums(Request $request, $id) {
+        return dd($request);
     }    
 }
