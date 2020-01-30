@@ -16,6 +16,7 @@
                             @csrf
 
                             @method('DELETE')
+                            <a class="btn btn-info mx-1" href="{{ url()->previous() }}">Back</a>
                             <a class="btn btn-warning mx-1" href="{{ route('albums.edit', $album) }}">Edit</a>
                             <button class="btn btn-danger mx-1" type="submit">Delete</button>
                         </form>

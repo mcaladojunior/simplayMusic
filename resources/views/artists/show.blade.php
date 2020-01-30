@@ -12,14 +12,13 @@
                     <p><strong>Twitter handle: </strong>{{ $artist->twitter_handle }}</p>
                     <p><strong>Albums: </strong>{{ $artist->albums }}</p>
                     <p class="text-center">
-                        <a class="btn btn-info" href="{{ route('artists.show', $artist) }}">Show</a>
-                        <a class="btn btn-warning" href="{{ route('artists.edit', $artist) }}">Edit</a>
                         <form class="form-inline" method="POST" action="{{ route('artists.destroy', $artist) }}">
                             @csrf
 
                             @method('DELETE')
-
-                            <button class="btn btn-danger" type="submit">Delete</button>
+                            <a class="btn btn-info mx-1" href="{{ url()->previous() }}">Back</a>
+                            <a class="btn btn-warning mx-1" href="{{ route('artists.edit', $artist) }}">Edit</a>
+                            <button class="btn btn-danger mx-1" type="submit">Delete</button>
                         </form>
                     </p>
                 </div>

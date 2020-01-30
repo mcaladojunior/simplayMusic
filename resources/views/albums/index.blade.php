@@ -5,7 +5,17 @@
     <div class="row justify-content-center">
         <div class="col-12 col-sm-12 col-md-12 col-lg-10 col-xl-10">
             <div class="card">
-                <div class="card-header"><h3 class="text-center">{{ __('Albums') }}</h3></div>
+                <div class="card-header">
+                    <h3 class="text-center">{{ __('Albums') }}</h3>
+                    <div class="row">
+                        <div class="col text-left">
+                            <a href="{{ url()->previous() }}" class="btn btn-info">Back</a>        
+                        </div>
+                        <div class="col text-right">
+                            <a href="{{ route('albums.create') }}" class="btn btn-primary">(+) New</a>
+                        </div>
+                    </div>
+                </div>
                 <div class="card-body">
                     <table class="table table-striped">
                         <thead>
